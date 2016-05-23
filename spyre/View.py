@@ -18,7 +18,10 @@ class View:
 		self.ROOT_DIR = os.path.dirname(os.path.realpath(__file__))
 		self.JS_PATH = os.path.join(self.ROOT_DIR, 'public', 'js')
 		self.CSS_PATH = os.path.join(self.ROOT_DIR, 'public', 'css')
-		self.APP_PATH = os.path.dirname(os.path.realpath(__main__.__file__))
+		try:
+			self.APP_PATH = os.path.dirname(os.path.realpath(__main__.__file__))
+		except AttributeError:
+			self.APP_PATH = None
 
 	def getHTML(self):
 		file_path = os.path.join(self.ROOT_DIR, 'view.html')
@@ -53,7 +56,7 @@ class View:
 
 	def getSpinningWheel(self, spinnerFile=None):
 		buffer = io.BytesIO()
-		if spinnerFile is None:
+		if spinnerFile is None or self.APP_PATH is None:
 			path = os.path.join(self.ROOT_DIR, 'public', 'images', "loading_wheel.gif")
 		else:
 			path = os.path.join(self.APP_PATH, spinnerFile)
